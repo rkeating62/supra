@@ -125,6 +125,8 @@ namespace supra
 		void resetFreezeTimer();
 		/// Slot that adds or removes preview widgets on selection
 		void previewCheckboxChanged(bool state);
+        /// Slot that enables/disables freeze timer
+        void freezeTimerCheckboxChanged(bool state);
 
 	signals:
 		void externClose();

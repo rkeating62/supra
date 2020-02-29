@@ -80,12 +80,14 @@ namespace supra
 		connect(timerFreeze, SIGNAL(timeout()), this, SLOT(updateFreezeTimer()));
 		connect(ui->pushButtonFreeze, SIGNAL(clicked()), this, SLOT(toogleFreeze()));
 		connect(ui->pushButtonResetFreeze, SIGNAL(clicked()), this, SLOT(resetFreezeTimer()));
+        connect(ui->checkBoxFreezeTimer, SIGNAL(toggled(bool)), this, SLOT(freezeTimerCheckboxChanged(bool)));
 		connect(this, &MainWindow::externClose, this, &MainWindow::close);
 
 		p_manager = SupraManager::Get();
 
 		m_previewSize = QSize(350, 400);
 		ui->actionPreviewSizeMedium->setChecked(true);
+        ui->checkBoxFreezeTimer->setChecked(p_manager->getFreezeTimerEnabled());
 
 		m_previewLinearInterpolation = true;
 		ui->actionPreviewLinearInterpolation->setChecked(true);
@@ -391,7 +393,7 @@ namespace supra
 			{
 				if (nodePredecessor.second.size() != 0)
 				{
-					for (int pred = 0; pred < static_cast<int>(nodePredecessor.second.size()); pred++)
+					for (int pred = 0; pred < nodePredecessor.second.size(); pred++)
 					{
 						if (nodePredecessors[nodePredecessor.second[pred]].size() == 0)
 						{
@@ -651,5 +653,11 @@ namespace supra
 			}
 			
 		}
+	}
+
+	void MainWindow::freezeTimerCheckboxChanged(bool state)
+	{
+        p_manager->setFreezeTimerEnabled(state);
+		ui->pushButtonFreeze->setEnabled(state);
 	}
 }
